@@ -3,6 +3,9 @@ import time
 import pathlib as Path
 import json
 import sys
+import tqdm
+import requests
+
 #config File Template :
 PcfgFile ={
     "RepositoryDirectory": "^",
@@ -18,6 +21,8 @@ UserDirectory = os.path.expanduser("~")
 ConfigDir =  ""
 FileLink = ""
 FileName = ""
+ChunkSize = 1024
+
 #arguments :
 class ArgumentValues:
     ImediateInstall = False
@@ -25,7 +30,7 @@ class ArgumentValues:
     CustomRep = ""
     ApplicationCandidate = ""
     ApplicationVersion = ""
-
+    SavePath = ""
 
 class bcolors:
     HEADER = '\033[95m'
@@ -47,6 +52,7 @@ def CreateConfigDir():
     ConfigFile.close()
 
 def ConfigureArguments():
+    global FileLink, FileName
     print("Setting Values")
     print(bcolors.BOLD + bcolors.WARNING + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" + bcolors.ENDC)
     match Arguments[0]:
@@ -59,7 +65,18 @@ def ConfigureArguments():
                 ArgumentValues.ApplicationVersion = "Latest"
             else:
                 ArgumentValues.ApplicationVersion = Arguments[2]
+                FileLink = Repositories + "/" + ArgumentValues.ApplicationCandidate + "/" + ArgumentValues.ApplicationVersion
+                FileName = ArgumentValues.ApplicationCandidate + "-" + ArgumentValues.ApplicationVersion + ".zip"
+   
             
+        case "fetch":
+            ArgumentValues.ImediateInstall = True
+            ArgumentValues.ApplicationCandidate = Arguments[1]
+            ArgumentValues.ApplicationVersion = "Fetched"
+            FileLink = Arguments[2]
+            FileName = ArgumentValues.ApplicationCandidate + "-" + ArgumentValues.ApplicationVersion + ".zip"
+
+
 
 print("Detected Os : " , os.name)
 if os.name != "posix":
@@ -78,14 +95,23 @@ if os.path.exists(UserDirectory + "/.BlockHut/bh.config"):
     print(ArgumentValues.ApplicationCandidate)
     print(ArgumentValues.ApplicationVersion)
     print(bcolors.BOLD + bcolors.WARNING + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" + bcolors.ENDC)
-    FileLink = Repositories + "/" + ArgumentValues.ApplicationCandidate + "/" + ArgumentValues.ApplicationVersion
-    FileName = ArgumentValues.ApplicationCandidate + "-" + ArgumentValues.ApplicationVersion + ".zip"
+    ArgumentValues.SavePath = os.path.join(os.getcwd(), FileName)
     print(bcolors.OKGREEN + "File Name : " + bcolors.BOLD +bcolors.FAIL + FileName + bcolors.ENDC)
+    print(bcolors.OKGREEN + "File Location : " + bcolors.BOLD +bcolors.FAIL + ArgumentValues.SavePath + bcolors.ENDC)
     print(bcolors.OKGREEN + "File Link : " + bcolors.BOLD +bcolors.FAIL + FileLink + bcolors.ENDC)
+
 else:
     CreateConfigDir()
 
+#if ArgumentValues.ImediateInstall == True:
+#    r = requests.get(FileLink, stream=True)
+#    totalSize = int(r.headers['content-length'])
+#
+#    with open(FileName, "wb") as file:
+#        for data in tqdm(r.iter_content(chunk_size= ChunkSize), totalSize/ChunkSize, "KB"):
+#            file.write(data)
 
+print("Download Complete")
 
 
 
