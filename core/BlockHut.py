@@ -13,10 +13,18 @@ cfgFile = json.dumps(PcfgFile)
 
 #will be repository Listing:
 Repositories = "https://kevinblog.sytes.net/hut"
-
+Arguments = []
 UserDirectory = os.path.expanduser("~")
 ConfigDir =  ""
-
+FileLink = ""
+FileName = ""
+#arguments :
+class ArgumentValues:
+    ImediateInstall = False
+    SearchCustomRep = False
+    CustomRep = ""
+    ApplicationCandidate = ""
+    ApplicationVersion = ""
 
 
 class bcolors:
@@ -35,11 +43,23 @@ print(bcolors.BOLD + bcolors.FAIL + "If this is bold , colors WORK!!!! 😁" + b
 def CreateConfigDir():
     print("Creating Directory Structure")
     ConfigFile = open(UserDirectory + "/.BlockHut/bh.config", "w")
-    ConfigFile.write(str(repositories))
+    ConfigFile.write("hi")
     ConfigFile.close()
 
-
-time.sleep(0)
+def ConfigureArguments():
+    print("Setting Values")
+    print(bcolors.BOLD + bcolors.WARNING + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" + bcolors.ENDC)
+    match Arguments[0]:
+        
+        case "install":
+            
+            ArgumentValues.ImediateInstall = True
+            ArgumentValues.ApplicationCandidate = Arguments[1]
+            if Arguments[2] == "":
+                ArgumentValues.ApplicationVersion = "Latest"
+            else:
+                ArgumentValues.ApplicationVersion = Arguments[2]
+            
 
 print("Detected Os : " , os.name)
 if os.name != "posix":
@@ -49,11 +69,21 @@ print("Checking Config Folder")
 if os.path.exists(UserDirectory + "/.BlockHut/bh.config"):
     print("Proceeding!")
     ConfigDir = UserDirectory + "/.BlockHut"
-    print("Arguments: ", sys.argv)
+    Arguments = sys.argv
+    Arguments.pop(0)
+    print("Arguments: ", Arguments)
+    ConfigureArguments()
+
+    print(ArgumentValues.ImediateInstall)
+    print(ArgumentValues.ApplicationCandidate)
+    print(ArgumentValues.ApplicationVersion)
+    print(bcolors.BOLD + bcolors.WARNING + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" + bcolors.ENDC)
+    FileLink = Repositories + "/" + ArgumentValues.ApplicationCandidate + "/" + ArgumentValues.ApplicationVersion
+    FileName = ArgumentValues.ApplicationCandidate + "-" + ArgumentValues.ApplicationVersion + ".zip"
+    print(bcolors.OKGREEN + "File Name : " + bcolors.BOLD +bcolors.FAIL + FileName + bcolors.ENDC)
+    print(bcolors.OKGREEN + "File Link : " + bcolors.BOLD +bcolors.FAIL + FileLink + bcolors.ENDC)
 else:
     CreateConfigDir()
-
-if sys.argv[1] == "install" or sys.argv[1] == "get":
 
 
 
