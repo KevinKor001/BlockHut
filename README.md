@@ -5,4 +5,4 @@ Install command syntax :
 
 BlockHut install <appName> <Version>
 Direct Grab Command:
-BlockHut fetch <URL >
+BlockHut fetch <URL >.
