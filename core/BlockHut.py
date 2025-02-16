@@ -3,8 +3,11 @@ import time
 import pathlib as Path
 import json
 import sys
-import tqdm
-import requests
+import Downloader
+import venv
+
+
+VENV_DIR = "BlockHut_venv"
 
 #config File Template :
 PcfgFile ={
@@ -55,27 +58,30 @@ def ConfigureArguments():
     global FileLink, FileName
     print("Setting Values")
     print(bcolors.BOLD + bcolors.WARNING + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" + bcolors.ENDC)
-    match Arguments[0]:
-        
-        case "install":
-            
-            ArgumentValues.ImediateInstall = True
-            ArgumentValues.ApplicationCandidate = Arguments[1]
-            if Arguments[2] == "":
-                ArgumentValues.ApplicationVersion = "Latest"
-            else:
-                ArgumentValues.ApplicationVersion = Arguments[2]
-                FileLink = Repositories + "/" + ArgumentValues.ApplicationCandidate + "/" + ArgumentValues.ApplicationVersion
-                FileName = ArgumentValues.ApplicationCandidate + "-" + ArgumentValues.ApplicationVersion + ".zip"
+    if len(Arguments) != 0 :
    
+        match Arguments[0]:
             
-        case "fetch":
-            ArgumentValues.ImediateInstall = True
-            ArgumentValues.ApplicationCandidate = Arguments[1]
-            ArgumentValues.ApplicationVersion = "Fetched"
-            FileLink = Arguments[2]
-            FileName = ArgumentValues.ApplicationCandidate + "-" + ArgumentValues.ApplicationVersion + ".zip"
-
+            case "install":
+                
+                ArgumentValues.ImediateInstall = True
+                ArgumentValues.ApplicationCandidate = Arguments[1]
+                if Arguments[2] == "":
+                    ArgumentValues.ApplicationVersion = "Latest"
+                else:
+                    ArgumentValues.ApplicationVersion = Arguments[2]
+                    FileLink = Repositories + "/" + ArgumentValues.ApplicationCandidate + "/" + ArgumentValues.ApplicationVersion
+                    FileName = ArgumentValues.ApplicationCandidate + "-" + ArgumentValues.ApplicationVersion + ".zip"
+    
+                
+            case "fetch":
+                ArgumentValues.ImediateInstall = True
+                ArgumentValues.ApplicationCandidate = Arguments[1]
+                ArgumentValues.ApplicationVersion = "Fetched"
+                FileLink = Arguments[2]
+                FileName = ArgumentValues.ApplicationCandidate + "-" + ArgumentValues.ApplicationVersion + ".zip"
+    else:
+        print("No Args Provided , Going On GUI mode")
 
 
 print("Detected Os : " , os.name)
@@ -103,15 +109,6 @@ if os.path.exists(UserDirectory + "/.BlockHut/bh.config"):
 else:
     CreateConfigDir()
 
-#if ArgumentValues.ImediateInstall == True:
-#    r = requests.get(FileLink, stream=True)
-#    totalSize = int(r.headers['content-length'])
-#
-#    with open(FileName, "wb") as file:
-#        for data in tqdm(r.iter_content(chunk_size= ChunkSize), totalSize/ChunkSize, "KB"):
-#            file.write(data)
-
-print("Download Complete")
-
+print("EOF")
 
 
