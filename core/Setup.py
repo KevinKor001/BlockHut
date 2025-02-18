@@ -31,5 +31,5 @@ def run_script(script_path):
 # Main logic
 if __name__ == "__main__":
     create_venv()
-    install_dependencies(["tqdm", "requests"])  # Add dependencies here
+    install_dependencies(["tqdm", "requests","keyboard"])  # Add dependencies here
     run_script("BlockHutUI.py")  # Replace with the script you want to run

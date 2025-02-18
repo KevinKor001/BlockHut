@@ -3,6 +3,11 @@ import time
 import pathlib as Path
 import json
 import sys
+import keyboard
+
+
+CurrentMenu = "MainMenu"
+KeyboaordInput = ""
 
 class bcolors:
     HEADER = '\033[95m'
@@ -31,17 +36,61 @@ class Art:
 |                                              "--^-----^-^^---' |
 |================================================================|"""
 
-class Menus:
-    MainMenu = """|>>>[ Enter a Selection    https://kevinblog.sytes.net/?p=212]<<<|
-|       [1] Install a package   |   [2] Download from URL        |
-|       [3] run Setup File      |   [4] Quit                     |
+class MenuTextures:
+    MainMenu = """|>>>[ Enter a Selection ]<<<=====================================|
+|       [1] Install a package   |   [4] Download from URL        |
+|       [2] Install Repository  |   [4] Run Setup Script BROKEN  |
+|       [3] Open Package Scout  |   [5] Setup ServerHut          |
+|                               |   [6] Quit                     |
+|================================================================|
+| [Block Hut GUI]                                                |
+|                                                                |
+|                                                                |
+|                                                                |
+|                                                                |
+| For More Documentation, check My site                          |
+|                        └>   http://kevinblog.sytes.net/?p=212  |
 |================================================================|
 """
+
+    PackageScout = """|>>>[Package Scout]<<<===========================================|
+| [] 1.Random Package... name ig ?                              █|
+|                                                               V|
+|                                                               ║|
+|                                                               ║|
+|                                                               ║|
+|                                                               ║|
+|                                                               ║|
+|                                                               ║|
+|                                                               ║|
+|                                                               ║|
+|                                                               ║|
+|                                                               ║|
+|================================================================|
+
+
+"""
+
+
+
+
+def RenderMenu(Menu):
+     match Menu:
+            case "MainMenu":
+               print(MenuTextures.MainMenu)
+            case "Scout":
+               print(MenuTextures.PackageScout)
+               
+               
 
 def UpdateScreen():
         clearScreen()
         print(Art.Header)
-        print(Menus.MainMenu)
+        RenderMenu(CurrentMenu)
+
+        print(KeyboaordInput)
+
+        GetKeyboardInput()
         pass
 
 
@@ -50,6 +99,12 @@ def UpdateScreen():
 def clearScreen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+def GetKeyboardInput():
+    global KeyboaordInput
+    KeyboaordInput = input()
+    UpdateScreen()
+    return(KeyboaordInput)
 
 
 UpdateScreen()
+

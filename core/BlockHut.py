@@ -57,6 +57,7 @@ def CreateConfigDir():
 def ConfigureArguments():
     global FileLink, FileName
     print("Setting Values")
+    print(len(Arguments))
     print(bcolors.BOLD + bcolors.WARNING + "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" + bcolors.ENDC)
     if len(Arguments) != 0 :
    
@@ -66,10 +67,13 @@ def ConfigureArguments():
                 
                 ArgumentValues.ImediateInstall = True
                 ArgumentValues.ApplicationCandidate = Arguments[1]
-                if Arguments[2] == "":
-                    ArgumentValues.ApplicationVersion = "Latest"
-                else:
+                if len(Arguments) > 2:
                     ArgumentValues.ApplicationVersion = Arguments[2]
+                    FileLink = Repositories + "/" + ArgumentValues.ApplicationCandidate + "/" + ArgumentValues.ApplicationVersion
+                    FileName = ArgumentValues.ApplicationCandidate + "-" + ArgumentValues.ApplicationVersion + ".zip"
+ 
+                else:
+                    ArgumentValues.ApplicationVersion = "Latest"
                     FileLink = Repositories + "/" + ArgumentValues.ApplicationCandidate + "/" + ArgumentValues.ApplicationVersion
                     FileName = ArgumentValues.ApplicationCandidate + "-" + ArgumentValues.ApplicationVersion + ".zip"
     
@@ -109,6 +113,10 @@ if os.path.exists(UserDirectory + "/.BlockHut/bh.config"):
 else:
     CreateConfigDir()
 
+
+
+
+Downloader.Download(1024, "http://kevinblog.sytes.net/wp-content/uploads/2025/01/TiropitPATCH1.zip", ArgumentValues.SavePath)
 print("EOF")
 
 
