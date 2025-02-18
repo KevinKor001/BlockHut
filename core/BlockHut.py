@@ -116,7 +116,7 @@ else:
 
 
 
-Downloader.Download(1024, "http://kevinblog.sytes.net/wp-content/uploads/2025/01/TiropitPATCH1.zip", ArgumentValues.SavePath)
+Downloader.Download(1024, FileLink, ArgumentValues.SavePath)
 print("EOF")
 
 
