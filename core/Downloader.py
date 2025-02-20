@@ -7,7 +7,7 @@ VENV_DIR = "BlockHut_venv"
 
 print("RUNS")
 chunk_size = 1024
-url = "http://kevinblog.sytes.net/wp-content/uploads/2025/02/teacherClean-1536x960.png"
+url = "https://www.maxpixel.net/static/photo/2x/Sad-Tear-Sadness-Emotion-Crying-Smiley-Cry-Emoji-4828792.png"
 
 
 

@@ -71,12 +71,12 @@ def ConfigureArguments():
                     ArgumentValues.ApplicationVersion = Arguments[2]
                     FileLink = Repositories + "/" + ArgumentValues.ApplicationCandidate + "/" + ArgumentValues.ApplicationVersion
                     FileName = ArgumentValues.ApplicationCandidate + "-" + ArgumentValues.ApplicationVersion + ".zip"
- 
+                    Downloader.Download(1024, FileLink, ArgumentValues.SavePath)
                 else:
                     ArgumentValues.ApplicationVersion = "Latest"
                     FileLink = Repositories + "/" + ArgumentValues.ApplicationCandidate + "/" + ArgumentValues.ApplicationVersion
                     FileName = ArgumentValues.ApplicationCandidate + "-" + ArgumentValues.ApplicationVersion + ".zip"
-    
+                    Downloader.Download(1024, FileLink, ArgumentValues.SavePath)
                 
             case "fetch":
                 ArgumentValues.ImediateInstall = True
@@ -84,6 +84,7 @@ def ConfigureArguments():
                 ArgumentValues.ApplicationVersion = "Fetched"
                 FileLink = Arguments[2]
                 FileName = ArgumentValues.ApplicationCandidate + "-" + ArgumentValues.ApplicationVersion + ".zip"
+                Downloader.Download(1024, FileLink, ArgumentValues.SavePath)
     else:
         print("No Args Provided , Going On GUI mode")
 
@@ -116,7 +117,7 @@ else:
 
 
 
-Downloader.Download(1024, FileLink, ArgumentValues.SavePath)
+
 print("EOF")
 
 
